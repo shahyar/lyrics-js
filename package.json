@@ -1,0 +1,26 @@
+{
+  "name": "genius-lyrics",
+  "version": "0.0.1",
+  "description": "Output current Spotify track lyrics from Genius.",
+  "main": "bin/lyrics",
+  "dependencies": {
+    "jsdom": "^9.11.0",
+    "node-osascript": "^2.0.0"
+  },
+  "devDependencies": {},
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahyar/genius-lyrics.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shahyar/genius-lyrics/issues"
+  },
+  "homepage": "https://github.com/shahyar/genius-lyrics#readme"
+}

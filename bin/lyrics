@@ -1,0 +1,93 @@
+#!/usr/bin/env node
+
+const config = require('../config.json');
+const https = require('https');
+const jsdom = require('jsdom');
+const osascript = require('node-osascript');
+
+function getCurrent(app) {
+    osascript.execute(`tell application "${app}" to artist of current track`, (err, artist) => {
+        if (err) {
+            if (app === 'Spotify') {
+                return getCurrent('iTunes');
+            }
+            return console.log("Is Spotify or iTunes open?");
+        }
+        osascript.execute(`tell application "${app}" to name of current track`, (err, title) => {
+            if (err) { throw err; }
+            receivedTrack(artist, title);
+        });
+    });
+}
+
+function receivedTrack(artist, title) {
+    console.log(`${artist} - ${title}`);
+    https.get(
+        {
+            protocol: 'https:',
+            host: 'api.genius.com',
+            port: 443,
+            path: `/search?q=${encodeURIComponent(artist)}+-+${encodeURIComponent(title)}`,
+            headers: {
+                Authorization: `Bearer ${config.token}`,
+            }
+        },
+        receivedSearch(artist)
+    ).on('error', err => { throw err; });
+}
+
+function receivedSearch(artist) { return conn => {
+    let json = '';
+    conn.on('data', chunk => { json += chunk; });
+    conn.on('end', () => {
+        const first = JSON.parse(json).response.hits[0];
+        console.log(`https://genius.com${first.result.path}`);
+        if (!first || first.result.primary_artist.name.toLowerCase().indexOf(artist.toLowerCase()) === -1) {
+            return console.error("Result mismatch!");
+        }
+        https.get(
+            {
+                protocol: 'https:',
+                host: 'genius.com',
+                port: 443,
+                path: first.result.path,
+                headers: {
+                    Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Encoding': 'sdch, br',
+                    'Accept-Language': 'en-US,en;q=0.8',
+                    'Cache-Control': 'no-cache',
+                    DNT: '1',
+                    Host: 'genius.com',
+                    Pragma: 'no-cache',
+                    Referer: 'https://www.google.com/',
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+                }
+            },
+            receivedLyrics
+        );
+    }).on('error', err => { throw err; });
+}; }
+
+function receivedLyrics(conn) {
+    let html = '';
+    conn.on('data', chunk => { html += chunk; });
+    conn.on('end', () => { processLyrics(html); });
+}
+
+function processLyrics(html) {
+    jsdom.env({
+        html: html.replace('<lyrics', '<div').replace('</lyrics', '</div'),
+        parsingMode: 'html',
+        features: {
+            FetchExternalResources: false,
+            ProcessExternalResources: false,
+            SkipExternalResources: true
+        },
+        done: (err, window) => {
+            if (err) { throw err; }
+            console.log(window.document.getElementsByClassName('lyrics')[0].textContent.trim());
+        }
+    });
+}
+
+getCurrent("Spotify");
