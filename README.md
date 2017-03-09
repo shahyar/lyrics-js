@@ -50,3 +50,20 @@ on construction are one and the same. They accept the following:
     "log": Boolean // Whether to log debug info to console (default: true)
 }
 ```
+
+## OS support for current track detection
+### macOS (OS X)
+macOS is natively supported using AppleScript to get the current track from
+Spotify or iTunes.
+
+### Linux
+In Linux, you can get the current track using D-Bus, as Spotify implements the 
+Media Player Remote Interfacing Specification (MPRIS). I have not tested it,
+but `mpris-service` is an available package.
+
+### Windows
+There isn't a an osascript or D-Bus equivalent way of getting the current track
+from Spotify in Windows at the moment, as far as I know. The Spotify Web API
+also does not have an endpoint to get the /current/ track, though it does have
+an endpoint to fetch the last 50 played tracks -- but this does not include the
+current one, nor does it include any that played for less than 30 seconds.
