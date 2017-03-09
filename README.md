@@ -37,3 +37,16 @@ fetcher.getCurrentTrack(['Spotify', 'iTunes'])
   .then(({ artist, title }) => console.log(artist, title))
   .catch(err => console.error(err));
 ```
+
+### Configuration
+The `config.json` for `bin/lyrics` and the `config` object passed to `Lyrics`
+on construction are one and the same. They accept the following:
+
+```javascript
+{
+    "genius": {
+        "token": String // Token for api.genius.com
+    },
+    "log": Boolean // Whether to log debug info to console (default: true)
+}
+```
