@@ -1,5 +1,5 @@
 Scrape lyrics for a song by "Artist - Title", either straight from the command
-line, or in Node.js.
+line, or in Node.js. Currently only supports Genius lyrics.
 
 ## Usage
 ### Binary Use (macOS)
@@ -20,13 +20,13 @@ const fetcher = new Lyrics({
 });
 
 
-// Get lyrics for a specific track
+// Get lyrics for a specific track (artist, title)
 fetcher.getTrackLyrics('Noah', 'Chef')
   .then(lyrics => console.log(lyrics))
   .catch(err => console.error(err));
 
 
-// Get lyric. for the current track active in Spotify or aTunes (macOS only)
+// Get lyrics for the current track active in Spotify or iTunes (macOS only)
 fetcher.getCurrentTrackLyrics(['Spotify', 'iTunes'])
   .then(lyrics => console.log(lyrics))
   .catch(err => console.error(err));
