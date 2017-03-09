@@ -1,7 +1,7 @@
 {
-  "name": "genius-lyrics",
+  "name": "lyrics-js",
   "version": "0.0.1",
-  "description": "Output current Spotify track lyrics from Genius.",
+  "description": "Get current Spotify or iTunes track lyrics from a scraper (Genius)",
   "main": "bin/lyrics",
   "dependencies": {
     "jsdom": "^9.11.0",
@@ -16,11 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shahyar/genius-lyrics.git"
+    "url": "git+https://github.com/shahyar/lyrics-js.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/shahyar/genius-lyrics/issues"
+    "url": "https://github.com/shahyar/lyrics-js/issues"
   },
-  "homepage": "https://github.com/shahyar/genius-lyrics#readme"
+  "homepage": "https://github.com/shahyar/lyrics-js#readme",
+  "engines": {
+    "node": ">=6.9.0"
+  }
 }
