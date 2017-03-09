@@ -1,6 +1,6 @@
 {
   "name": "lyrics-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get current Spotify or iTunes track lyrics from a scraper (Genius)",
   "main": "bin/lyrics",
   "dependencies": {
@@ -12,8 +12,7 @@
     "bin": "./bin",
     "lib": "./lib"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shahyar/lyrics-js.git"
