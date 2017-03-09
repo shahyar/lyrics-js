@@ -2,6 +2,6 @@
 
 const Lyrics = require('../lib/lyrics');
 const fetcher = new Lyrics(require('../config.json'));
-fetcher.getCurrentTrackLyrics()
+fetcher.getCurrentTrackLyrics(['Spotify', 'iTunes'])
   .then(lyrics => console.log(lyrics))
-  .catch(err => console.error(err));
+  .catch(err => err && err.message ? console.log(err.message) : console.error(err));
